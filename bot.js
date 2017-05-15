@@ -13,7 +13,13 @@ client.on('message', msg => {
 
   // If message is hello, post hello too
   if (msg.content === 'hello') {
-    msg.channel.sendMessage('Hello to you too, fellow !')
+    msg.channel.sendMessage('Hello darkness my old friend...')
+  }
+  if (msg.content === 'bonjour') {
+    msg.channel.sendMessage('Moi pas parler baguette, sorry')
+  }
+  if (msg.content === 'hola') {
+    msg.channel.sendMessage('Hola tapas, nachos,tacos!!!')
   }
 })
 
