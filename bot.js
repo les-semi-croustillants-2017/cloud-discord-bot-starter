@@ -33,8 +33,8 @@ client.on('message', msg => {
   }
 
   if (msg.content.match('twitter*') !== null) {
-    const city = msg.content.substring(8, msg.content.length)
-    clientTwitter.post('statuses/update', {status: city}, function (error, tweet, response) {
+    const tweety = msg.content.substring(8, msg.content.length)
+    clientTwitter.post('statuses/update', {status: tweety}, function (error, tweet, response) {
       if (error) throw error
       console.log(tweet)
       console.log(response)
