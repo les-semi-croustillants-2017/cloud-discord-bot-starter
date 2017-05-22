@@ -32,8 +32,9 @@ client.on('message', msg => {
     msg.channel.sendMessage('Hello to you too, fellow !')
   }
 
-  if (msg.content === 'twitter') {
-    clientTwitter.post('statuses/update', {status: 'I Love Twitter'}, function (error, tweet, response) {
+  if (msg.content.match('twitter*') !== null) {
+    const city = msg.content.substring(8, msg.content.length)
+    clientTwitter.post('statuses/update', {status: city}, function (error, tweet, response) {
       if (error) throw error
       console.log(tweet)
       console.log(response)
