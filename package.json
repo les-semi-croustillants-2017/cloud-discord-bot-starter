@@ -13,10 +13,6 @@
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://gitlab.com/pierrick.bignet/cloud-discord-bot/issues"
-  },
-  "homepage": "https://gitlab.com/pierrick.bignet/cloud-discord-bot#README",
   "dependencies": {
     "discord.js": "^11.1.0",
     "eslint-config-standard": "^10.2.1",
