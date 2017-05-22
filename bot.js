@@ -1,8 +1,9 @@
   const Discord = require('discord.js')
   const config = require('./config.js')
   const client = new Discord.Client()
-  var restClient = require('node-rest-client-promise').Client
+  var restClient = require('node-rest-client-promise').Client()
   var city = ''
+  var temperature
 
   client.on('ready', () => {
     console.log(`Logged in as ${client.user.username}!`)
@@ -17,15 +18,22 @@
     if (msg.content.match('meteo*') !== null) {
       city = msg.content.substring(6, msg.content.length)
       msg.channel.sendMessage(city + ' ')
-      restClient.getPromise('http://api.openweathermap.org/data/2.5/weather?q=London&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
+      restClient.getPromise('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
       .catch((error) => {
         throw error
       })
       .then((res) => {
         console.log(res)
-        msg.channel.sendMessage('Pense à ton petit pull ! la temperature est de ' + res.data.main.temp)
+        temperature = res.data.main.temp
+        if (temperature <= 15) {
+          msg.channel.sendMessage('Pense à ton petit pull ! la temperature est de ' + temperature + ' degrés !')
+        } else {
+          msg.channel.sendMessage('Tu peux enlever ta coquille, la température est de ' + temperature + ' degrés !')
+        }
+        msg.channel.sendMessage('La pression est de ' + res.data.main.pressure + ' hpa. Cette pression, elle n\'est pas potable !')
+        msg.channel.sendMessage('L\'humidité est de ' + res.data.main.humidity + '% C\'est l\'idéal pour sortir les marmots et aller à la plage!')
+        msg.channel.sendMessage('Le vent ira à ' + res.data.wind.speed + ' km/h')
         console.log(res.response.statusCode)
-        msg.channel.sendMessage(msg.content.substring(5, msg.content.length))
       })
     } else if (msg.content === 'help') {
       msg.channel.sendMessage('Don\'t be sad, you still have a zoidberg')
