@@ -39,15 +39,18 @@ client.on('message', msg => {
         if (error) throw error
         console.log(tweet)
         console.log(response)
+        msg.channel.sendMessage('Ton tweet a bien été posté !')
       })
+    } else {
+      msg.channel.sendMessage('Ton tweet contient plus de 140 caractères !')
     }
   }
 
-  if (msg.content.match('@*') !== null) {
-    const webhook = msg.content.substring(1, msg.content.length)
-    clientTwitter.get('search/tweets', {q: webhook}, function (error, tweets, response) {
+  if (msg.content === 'tests') {
+    clientTwitter.get('search/tweets', {q: 'JuniorISEP'}, function (error, tweets, response) {
       if (error) throw error
-      console.log(tweets.text)
+      console.log(tweets.statuses[0].text)
+      msg.channel.sendMessage(tweets.statuses[0].text)
     })
   }
 })
