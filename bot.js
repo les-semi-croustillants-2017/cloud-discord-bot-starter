@@ -11,13 +11,6 @@ const clientTwitter = new Twitter({
   access_token_secret: 'v8Y6fWpxwdJn3xYiyjdO2LeZeEXjIAj2XYGc7HVStWbBe'
 })
 
-const params = {screen_name: 'nodejs'}
-clientTwitter.get('statuses/user_timeline', params, function (error, tweets, response) {
-  if (!error) {
-    console.log(tweets)
-  }
-})
-
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.username}!`)
 })
