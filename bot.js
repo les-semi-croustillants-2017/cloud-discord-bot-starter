@@ -13,6 +13,11 @@ const clientTwitter = new Twitter({
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.username}!`)
+  clientTwitter.get('search/tweets', {q: 'JuniorISEP'}, function webhook (error, tweets, response) {
+    if (error) throw error
+    var webhook = tweets.statuses[0].text
+    console.log(webhook)
+  })
 })
 
 client.on('message', msg => {
@@ -39,6 +44,7 @@ client.on('message', msg => {
     }
   }
 
+  /*
   if (msg.content === 'tests') {
     clientTwitter.get('search/tweets', {q: 'JuniorISEP'}, function (error, tweets, response) {
       if (error) throw error
@@ -46,6 +52,7 @@ client.on('message', msg => {
       msg.channel.sendMessage(tweets.statuses[0].text)
     })
   }
+  */
 })
 
 client.login(config.token)
