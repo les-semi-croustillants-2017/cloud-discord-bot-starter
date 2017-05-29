@@ -32,12 +32,22 @@ client.on('message', msg => {
     msg.channel.sendMessage('Hello to you too, fellow !')
   }
 
-  if (msg.content.match('twitter*') !== null) {
+  if (msg.content.match('!tweet*') !== null) {
     const tweety = msg.content.substring(8, msg.content.length)
-    clientTwitter.post('statuses/update', {status: tweety}, function (error, tweet, response) {
+    if (tweety.length <= 140) {
+      clientTwitter.post('statuses/update', {status: tweety}, function (error, tweet, response) {
+        if (error) throw error
+        console.log(tweet)
+        console.log(response)
+      })
+    }
+  }
+
+  if (msg.content.match('@*') !== null) {
+    const webhook = msg.content.substring(1, msg.content.length)
+    clientTwitter.get('search/tweets', {q: webhook}, function (error, tweets, response) {
       if (error) throw error
-      console.log(tweet)
-      console.log(response)
+      console.log(tweets.text)
     })
   }
 })
