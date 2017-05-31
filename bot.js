@@ -11,6 +11,14 @@
   var Mois
   var Iso
   var Time
+  var Weekday = new Array(7)
+  Weekday[0] = 'Dimanche'
+  Weekday[1] = 'Lundi'
+  Weekday[2] = 'Mardi'
+  Weekday[3] = 'Mercredi'
+  Weekday[4] = 'Jeudi'
+  Weekday[5] = 'Vendredi'
+  Weekday[6] = 'Samedi'
 
   client.on('ready', () => {
     console.log(`Logged in as ${client.user.username}!`)
@@ -39,8 +47,9 @@
     if (msg.channel.type !== 'dm' && (config.channel !== msg.channel.id || msg.author.id === client.user.id)) return
 
     if (msg.content === 'hello') {
-      msg.channel.sendMessage('Yeepeeee ! Enfin quelqu\'un qui s\'intéresse à moi ! ' + 'Je connais les commandes weather + ville || forecast + numéro + ville || help, qui t\'aidera à utiliser forecast')
-    } else if (msg.content.match('!weather*') !== null) {
+      msg.channel.sendMessage('Yeepeeee ! Enfin quelqu\'un qui s\'intéresse à moi ! ' + 'Je connais les commandes weather + ville || forecast + numéro + ville || help, qui t\'aidera à utiliser forecast --- N\'oublie pas le ! avant')
+      msg.channel.sendMessage()
+    } else if (msg.content.match('meteo*') !== null) {
       city = msg.content.substring(6, msg.content.length)
       msg.channel.sendMessage(city + ' ')
       restClient.getPromise('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&lang=fr&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
@@ -48,7 +57,7 @@
         throw error
       })
       .then((res) => {
-        msg.channel.sendMessage('Menu Weather')
+        console.log(res)
         temperature = res.data.main.temp
         if (temperature <= 15) {
           msg.channel.sendMessage('Pense à ton petit pull ! la temperature est de ' + temperature + ' degrés !')
@@ -63,7 +72,7 @@
         meteo(idMeteo)
         console.log(res.response.statusCode)
       })
-    } else if (msg.content.match('!help*') !== null) {
+    } else if (msg.content.match('!help') !== null) {
       msg.channel.sendMessage('Ne sois pas triste, tu as toujours ton docteur Zoidberg.')
       restClient.getPromise('http://api.openweathermap.org/data/2.5/forecast?q=Paris&units=metric&lang=fr&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
           .catch((error) => {
@@ -77,35 +86,40 @@
             }
           })
     } else if (msg.content.match('!forecast*') !== null) {
+      city = msg.content.substring(12, msg.content.length)
       hour = msg.content.substring(10, 11)
       if (hour.match(/[0-7]/) === null) {
-        msg.channel.sendMessage('Il faut mettre une heure entre 0 et 7 rappelle-toi, tu ne l\'as pas mise ! Docteur Zoidberg à ton service !help')
-      }
-      city = msg.content.substring(12, msg.content.length)
-      msg.channel.sendMessage('Alors alors... pour la ville de ' + city + 'laisse-moi te dire la météo...')
-      hour = parseFloat(hour)
-      restClient.getPromise('http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=metric&lang=fr&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
-      .catch((error) => {
-        throw error
-      })
-      .then((res) => {
-        console.log(res)
-        // msg.channel.sendMessage(Date.now())
-        // msg.channel.sendMessage(res.data.list[0].dt)
-        // msg.channel.sendMessage(res.data.list[0].dt_txt)
-        // msg.channel.sendMessage(res.data.list[0].dt_txt.substring(11, 13))
+        msg.channel.sendMessage('Entre forecast et le nom de la ville il faut un numéro pour indiquer l\'horaire. En échange d\'un foie je peux t\'aider ... consommation personnelle exclusivement. Tape !help')
+      } else {
+        hour = parseFloat(hour)
+        restClient.getPromise('http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=metric&lang=fr&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
+        .catch((error) => {
+          throw error
+        })
+        .then((res) => {
+          if (res.data.cod === '404') {
+            msg.channel.sendMessage('Cette ville n\'est pas une ville tertienne ! Croyez-moi, je suis docteur.')
+          } else {
+            msg.channel.sendMessage('Laisse-moi voir ce que je prévois pour ' + city)
+            console.log(res)
+            // msg.channel.sendMessage(Date.now())
+            // msg.channel.sendMessage(res.data.list[0].dt)
+            // msg.channel.sendMessage(res.data.list[0].dt_txt)
+            // msg.channel.sendMessage(res.data.list[0].dt_txt.substring(11, 13))
 
-        // msg.channel.sendMessage(hour + ' ' + res.data.list.length)
-        for (var heure = hour; heure <= res.data.list.length; heure = heure + 8) {
-          Iso = new Date(res.data.list[heure].dt_txt)
-          Jour = Iso.getDate()
-          Mois = Iso.getMonth()
-          Time = Iso.getHours()
-          msg.channel.sendMessage('Le ' + Jour + '/' + Mois + ' à ' + Time + 'h' + ' il fait ' + res.data.list[heure].main.temp + ' degrés ! ')
-          idMeteo = res.data.list[heure].weather[0].id
-          meteo(idMeteo)
-        }
-      })
+            // msg.channel.sendMessage(hour + ' ' + res.data.list.length)
+            for (var heure = hour; heure <= res.data.list.length; heure = heure + 8) {
+              Iso = new Date(res.data.list[heure].dt_txt)
+              Jour = Iso.getDate()
+              Mois = Iso.getMonth()
+              Time = Iso.getHours()
+              msg.channel.sendMessage('Le ' + Weekday[Iso.getDay()] + ' ' + Jour + '/' + Mois + ' à ' + Time + 'h' + ' il fait ' + res.data.list[heure].main.temp + ' degrés ! ')
+              idMeteo = res.data.list[heure].weather[0].id
+              meteo(idMeteo)
+            }
+          }
+        })
+      }
     } else if (msg.content === 'how are you?') {
       msg.channel.sendMessage('It\'s all so complicated with the flowers and the romance, and the lies upon lies!')
     } else if (msg.content === 'where are you?') {
