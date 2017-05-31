@@ -11,6 +11,13 @@ const clientTwitter = new Twitter({
   access_token_secret: 'v8Y6fWpxwdJn3xYiyjdO2LeZeEXjIAj2XYGc7HVStWbBe'
 })
 
+clientTwitter.get('search/tweets', {q: 'JuniorISEP'}, function webhook (error, tweets, response) {
+  if (error) throw error
+  const hook = new Discord.WebhookClient('', 'MzEzNjQ0OTY3MzQ2MTc2MDAw.C_soMQ.-U19NNJwq9u9ep323Y-g9uUa23A')
+  var webhook = tweets.statuses[0].text
+  hook.send(webhook)
+})
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.username}!`)
   clientTwitter.get('search/tweets', {q: 'JuniorISEP'}, function webhook (error, tweets, response) {
