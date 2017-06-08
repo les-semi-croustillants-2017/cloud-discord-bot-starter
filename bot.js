@@ -19,6 +19,22 @@ var translate = require('@google-cloud/translate')({
   key: API_KEY
 })
 var elem
+// Twitter //
+const Twitter = require('twitter')
+
+const clientTwitter = new Twitter({
+  consumer_key: 'MrlErdRtTFsTISbCTVsrTfe4c',
+  consumer_secret: 'vTPusVlQVCrkT7Mp0W0EdYDNSayanR9XdZMdMaJENApsVQO0VJ',
+  access_token_key: '2584464448-eakfNNGHKwnt2NWDoH4NHlSJsbCfDb8cpsoIyXe',
+  access_token_secret: 'v8Y6fWpxwdJn3xYiyjdO2LeZeEXjIAj2XYGc7HVStWbBe'
+})
+
+const params = {screen_name: 'nodejs'}
+clientTwitter.get('statuses/user_timeline', params, function (error, tweets, response) {
+  if (!error) {
+    console.log(tweets)
+  }
+})
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.username}!`)
@@ -135,6 +151,13 @@ client.on('message', msg => {
       }, function (err) {
         console.log('Something went wrong when retrieving an access token', err.message)
       })
+  }
+  if (msg.content === 'twitter') {
+    clientTwitter.post('statuses/update', {status: 'I Love Twitter'}, function (error, tweet, response) {
+      if (error) throw error
+      console.log(tweet)
+      console.log(response)
+    })
   }
 }
 )
