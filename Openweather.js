@@ -23,15 +23,11 @@ const Discord = require('discord.js')
  +  Weekday[5] = 'Vendredi'
  +  Weekday[6] = 'Samedi'
 
- -client.on('ready', () => {
- -  console.log(`Logged in as ${client.user.username}!`)
- -})
  +  client.on('ready', () => {
  +    console.log(`Logged in as ${client.user.username}!`)
  +  })
 
  -client.on('message', msg => {
- +  client.on('message', msg => {
     // Check if the message has been posted in a channel where the bot operates
     // and that the author is not the bot itself
  -  if (msg.channel.type !== 'dm' && (config.channel !== msg.channel.id || msg.author.id === client.user.id)) return
@@ -52,13 +48,7 @@ const Discord = require('discord.js')
  +        msg.channel.sendMessage('Les petits pois, pour que ça pousse, faut les arroser ! :cloud:')
  +      }
  +    }
- +    if (msg.channel.type !== 'dm' && (config.channel !== msg.channel.id || msg.author.id === client.user.id)) return
-
  -  // If message is hello, post hello too
- -  if (msg.content === 'hello') {
- -    msg.channel.sendMessage('Hello to you too, fellow !')
- -  }
- -})
  +    if (msg.content === 'hello') {
  +      msg.channel.sendMessage('Yeepeeee ! Enfin quelqu\'un qui s\'intéresse à moi ! ' + 'Je connais les commandes weather + ville || forecast + numéro + ville || help, qui t\'aidera à utiliser forecast --- N\'oublie pas le ! avant')
  +      msg.channel.sendMessage()
