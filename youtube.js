@@ -35,10 +35,17 @@ client.on('message', msg => {
       rechParam = msg.content.length
     }
     rech = msg.content.substring(rechParam, msg.content.length)
+    if (rech === 'help') {
+      msg.content.sendMessage('Commande autorisé : !youtube, !video_youtube, !chaine_youtube, !playist_youtube ')
+      msg.content.sendMessage('!youtube : effectuer une recherche youtube avec 3 résultats renvoyés au maximum')
+      msg.content.sendMessage('!video_youtube renvoie uniquement les vidéos ')
+      msg.content.sendMessage('!chaine_youtube renvoie uniquement les chaines ')
+      msg.content.sendMessage('!playist_youtube renvoie uniquement les playists ')
+    }
     youTube.search(rech, 3, function (error, result) {
       if (error) {
         console.log(error)
-        msg.channel.sendMessage('Une erreur est survenue lors de la recherche')
+        msg.channel.sendMessage('Une erreur est survenue lors de la recherche') 
       } else {
         console.log(JSON.stringify(result, null, 3))
         for (var k in result.items) {
@@ -54,7 +61,7 @@ client.on('message', msg => {
                 nbResultat = nbResultat + 1
               }
               break
-            case 'youtube#playist':
+            case 'youtube#playlist':
               var urlPlayist = 'https://www.youtube.com/playlist?list='
               var idPlayist = result.items[k].id.playlistId
               // Le bot envoie le lien de la playist
@@ -77,9 +84,8 @@ client.on('message', msg => {
           }
         }
       }
-      if (nbResultat === 0) {
-        msg.channel.sendMessage('Aucun résulat trouvé')
-      }
+      msg.channel.sendMessage('Nombre de résultat trouvé : ' + nbResultat)
+      nbResultat = 0
     })
   }
 })
