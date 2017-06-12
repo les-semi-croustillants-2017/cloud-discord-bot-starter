@@ -50,7 +50,8 @@ client.on('ready', () => {
 
 client.on('message', msg => {
 // Bot Youtube//
-  if (msg.content.match('!youtube*') || msg.content.match('!video_youtube*') || msg.content.match('!chaine_youtube*') || msg.content.match('!playist_youtube*')) {
+
+  if (msg.content.match('!youtube*') || msg.content.match('!video_youtube*') || msg.content.match('!chaine_youtube*') || msg.content.match('!playlist_youtube*')) {
     var rechParam = msg.content.length
     if (msg.content.match('!video_youtube*')) {
       rechParam = 14
@@ -58,9 +59,9 @@ client.on('message', msg => {
     } else if (msg.content.match('!chaine_youtube*')) {
       rechParam = 15
       rechType = 'chaine'
-    } else if (msg.content.match('!playist_youtube*')) {
+    } else if (msg.content.match('!playlist_youtube*')) {
       rechParam = 16
-      rechType = 'playist'
+      rechType = 'playlist'
     } else if (msg.content.match('!youtube*')) {
       rechParam = 8
       rechType = 'all'
@@ -87,13 +88,13 @@ client.on('message', msg => {
                 nbResultat = nbResultat + 1
               }
               break
-            case 'youtube#playist':
-              var urlPlayist = 'https://www.youtube.com/playlist?list='
-              var idPlayist = result.items[k].id.playlistId
-              // Le bot envoie le lien de la playist
-              if ((rechType === 'all') || (rechType === 'playist')) {
-                msg.channel.sendMessage('Une playist a été retrouvée !! Cliques sur le lien qui est juste en dessous')
-                msg.channel.sendMessage(urlPlayist.concat(idPlayist))
+            case 'youtube#playlist':
+              var urlplaylist = 'https://www.youtube.com/playlist?list='
+              var idplaylist = result.items[k].id.playlistId
+              // Le bot envoie le lien de la playlist
+              if ((rechType === 'all') || (rechType === 'playlist')) {
+                msg.channel.sendMessage('Une playlist a été retrouvée !! Cliques sur le lien qui est juste en dessous')
+                msg.channel.sendMessage(urlplaylist.concat(idplaylist))
                 nbResultat = nbResultat + 1
               }
               break
