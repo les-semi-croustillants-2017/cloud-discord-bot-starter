@@ -38,7 +38,7 @@ client.on('message', msg => {
     youTube.search(rech, 3, function (error, result) {
       if (error) {
         console.log(error)
-        msg.channel.sendMessage('Une erreur est survenue lors de la recherche') 
+        msg.channel.sendMessage('Une erreur est survenue lors de la recherche')
       } else {
         console.log(JSON.stringify(result, null, 3))
         for (var k in result.items) {
