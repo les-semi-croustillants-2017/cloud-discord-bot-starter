@@ -49,8 +49,8 @@ client.on('ready', () => {
 })
 
 client.on('message', msg => {
-	// Bot Youtube//
-	if (msg.content.match('!youtube*') || msg.content.match('!video_youtube*') || msg.content.match('!chaine_youtube*') || msg.content.match('!playist_youtube*')) {
+// Bot Youtube//
+  if (msg.content.match('!youtube*') || msg.content.match('!video_youtube*') || msg.content.match('!chaine_youtube*') || msg.content.match('!playist_youtube*')) {
     var rechParam = msg.content.length
     if (msg.content.match('!video_youtube*')) {
       rechParam = 14
@@ -71,9 +71,9 @@ client.on('message', msg => {
     youTube.search(rech, 3, function (error, result) {
       if (error) {
         console.log(error)
-        msg.channel.sendMessage('Une erreur est survenue lors de la recherche') 
+        msg.channel.sendMessage('Une erreur est survenue lors de la recherche')
       } else {
-        console.log(JSON.stringify(result, null, 3))
+        // console.log(JSON.stringify(result, null, 3))
         for (var k in result.items) {
           var type = result.items[k].id.kind
           switch (type) {
@@ -115,19 +115,13 @@ client.on('message', msg => {
       }
     })
   }
-
-	
-	
   // Bot Google_traduction //
   if (msg.content.match('!trad *')) {
-    console.log(msg.content)
     if (msg.content.match('!trad help*')) {
       msg.channel.sendMessage('Taper !trad lg:Votre_langue Votre_texte pour traduire votre texte dans une langue spécifique')
       msg.channel.sendMessage('Taper !trad Votre_texte pour traduire votre texte en anglais')
     } else if (msg.content.match('!trad lg:[A-Za-z][A-Za-z] *') && !msg.content.match('Taper !trad Votre_texte pour traduire votre texte en anglais') && !msg.content.match('Taper !trad lg:Votre_langue Votre_texte pour traduire votre texte dans une langue spécifique')) {
       elem = msg.content.substring(11, msg.content.length)
-      console.log(msg.content)
-      console.log('ici')
       var language = msg.content.substring(9, 11, msg.content.length)
       translate.translate(elem, language, function (err, translation) {
         if (!err) {
@@ -135,8 +129,6 @@ client.on('message', msg => {
         }
       })
     } else if (msg.content.match('!trad*') && !msg.content.match('Taper !trad Votre_texte pour traduire votre texte en anglais') && !msg.content.match('Taper !trad lg:Votre_langue Votre_texte pour traduire votre texte dans une langue spécifique')) {
-      console.log(msg.content)
-      console.log('la')
       elem = msg.content.substring(msg.content.lastIndexOf('!trad ') + '!trad '.length, msg.content.length)
       translate.translate(elem, 'en', function (err, translation) {
         if (!err) {
@@ -154,6 +146,7 @@ client.on('message', msg => {
         // Save the access token so that it's used in future calls
         spotifyApi.setAccessToken(data.body['access_token'])
         if (msg.content.match('!spotify help*')) {
+          console.log('test')
           msg.channel.sendMessage('Taper !spotify track et votre choix pour afficher le top 3 des chansons associées à votre choix')
           msg.channel.sendMessage('Taper !spotify artiste et votre choix pour afficher le top 3 des artistes associés à votre choix')
           msg.channel.sendMessage('Taper !spotify album et votre choix pour afficher le top 3 des albums associés à votre choix')
@@ -162,6 +155,7 @@ client.on('message', msg => {
           track = msg.content.substring(msg.content.lastIndexOf('!spotify track ') + '!spotify track '.length, msg.content.length)
           spotifyApi.searchTracks(track)
             .then(function (data) {
+              console.log(data)
               msg.channel.sendMessage('Top 3 des chansons pour votre recherche : ' + track)
               for (var i = 0; i < 3; i++) {
                 msg.channel.sendMessage('"' + data.body.tracks.items[i].name + '" de ' + data.body.tracks.items[i].artists[0].name)
@@ -173,6 +167,7 @@ client.on('message', msg => {
           track = msg.content.substring(msg.content.lastIndexOf('!spotify artiste ') + '!spotify artiste '.length, msg.content.length)
           spotifyApi.searchArtists(track)
             .then(function (data) {
+              console.log(data)
               msg.channel.sendMessage('Top 3 des artistes pour votre recherche : ' + track)
               for (var i = 0; i < 3; i++) {
                 if (data.body.artists.items[i].genres[0] !== undefined) {
@@ -188,6 +183,7 @@ client.on('message', msg => {
           track = msg.content.substring(msg.content.lastIndexOf('!spotify album ') + '!spotify album '.length, msg.content.length)
           spotifyApi.searchTracks('album:' + track)
             .then(function (data) {
+              console.log(data)
               msg.channel.sendMessage('Top 3 des albums pour votre recherche : ' + track)
               for (var i = 0; i < 3; i++) {
                 msg.channel.sendMessage('"' + data.body.tracks.items[0].album.name + '" de ' + data.body.tracks.items[i].album.artists[0].name)
@@ -199,6 +195,7 @@ client.on('message', msg => {
           track = msg.content.substring(msg.content.lastIndexOf('!spotify ') + '!spotify '.length, msg.content.length)
           spotifyApi.searchTracks('album:' + track)
             .then(function (data) {
+              console.log(data)
               msg.channel.sendMessage('Top 3 des albums pour votre recherche : ' + track)
               for (var i = 0; i < 3; i++) {
                 msg.channel.sendMessage('"' + data.body.tracks.items[i].album.name + '" de ' + data.body.tracks.items[i].artists[0].name)
