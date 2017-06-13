@@ -11,13 +11,6 @@ const clientTwitter = new Twitter({
   access_token_secret: 'v8Y6fWpxwdJn3xYiyjdO2LeZeEXjIAj2XYGc7HVStWbBe'
 })
 
-clientTwitter.get('search/tweets', {q: 'JuniorISEP'}, function webhook (error, tweets, response) {
-  if (error) throw error
-  const hook = new Discord.WebhookClient('', 'MzEzNjQ0OTY3MzQ2MTc2MDAw.C_soMQ.-U19NNJwq9u9ep323Y-g9uUa23A')
-  var webhook = tweets.statuses[0].text
-  hook.send(webhook)
-})
-
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.username}!`)
   clientTwitter.get('search/tweets', {q: 'JuniorISEP'}, function webhook (error, tweets, response) {
@@ -31,12 +24,10 @@ client.on('message', msg => {
   // Check if the message has been posted in a channel where the bot operates
   // and that the author is not the bot itself
   if (msg.channel.type !== 'dm' && (config.channel !== msg.channel.id || msg.author.id === client.user.id)) return
-
   // If message is hello, post hello too
   if (msg.content === 'hello') {
     msg.channel.sendMessage('Hello to you too, fellow !')
   }
-
   if (msg.content.match('!tweet*') !== null) {
     const tweety = msg.content.substring(8, msg.content.length)
     if (tweety.length <= 140) {
@@ -50,16 +41,6 @@ client.on('message', msg => {
       msg.channel.sendMessage('Ton tweet contient plus de 140 caractères !')
     }
   }
-
-  /*
-  if (msg.content === 'tests') {
-    clientTwitter.get('search/tweets', {q: 'JuniorISEP'}, function (error, tweets, response) {
-      if (error) throw error
-      console.log(tweets.statuses[0].text)
-      msg.channel.sendMessage(tweets.statuses[0].text)
-    })
-  }
-  */
 })
 
 client.login(config.token)
