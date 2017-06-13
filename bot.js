@@ -36,6 +36,7 @@ const clientTwitter = new Twitter({
   access_token_key: '2584464448-eakfNNGHKwnt2NWDoH4NHlSJsbCfDb8cpsoIyXe',
   access_token_secret: 'v8Y6fWpxwdJn3xYiyjdO2LeZeEXjIAj2XYGc7HVStWbBe'
 })
+
 */
 /*
 const params = {screen_name: 'nodejs'}
@@ -68,9 +69,18 @@ Weekday[6] = 'Samedi'
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.username}!`)
+  clientTwitter.get('search/tweets', {q: 'JuniorISEP'}, function webhook (error, tweets, response) {
+    if (error) throw error
+    var webhook = tweets.statuses[0].text
+    console.log(webhook)
+  })
 })
 
 client.on('message', msg => {
+  // Check if the message has been posted in a channel where the bot operates
+  // and that the author is not the bot itself
+  if (msg.channel.type !== 'dm' && (config.channel !== msg.channel.id || msg.author.id === client.user.id)) return
+  // If message is hello, post hello too
 // Message //
   if (msg.content === 'hello') {
     msg.channel.send('Yeepeeee ! Enfin quelqu\'un qui s\'intéresse à moi ! ' + 'Je connais les commandes weather + ville || forecast + numéro + ville || help, qui t\'aidera à utiliser forecast --- N\'oublie pas le ! avant')
@@ -79,6 +89,19 @@ client.on('message', msg => {
   } else if (msg.content === 'where are you?') {
     msg.channel.send('You’ll never guess where I’ve been!')
   }
+
+  if (msg.content.match('!tweet*') !== null) {
+    const tweety = msg.content.substring(8, msg.content.length)
+    if (tweety.length <= 140) {
+      clientTwitter.post('statuses/update', {status: tweety}, function (error, tweet, response) {
+        if (error) throw error
+        console.log(tweet)
+        console.log(response)
+        msg.channel.sendMessage('Ton tweet a bien été posté !')
+      })
+    } else {
+      msg.channel.sendMessage('Ton tweet contient plus de 140 caractères !')
+      
 // Bot Openweather //
   function meteo (idWeather) {
     if (idMeteo >= 200 && idMeteo < 300) {
