@@ -44,7 +44,7 @@
 - Google traduction
 1) !trad help : Affiche toutes les commandes Google traduction
 2) !trad [mon message] : traduit le message en anglais
-3)! trad lg:[votre langue en deux lettre exemple: en, fr, es, it,...] [votre message ] : traduit votre message dans la langue voulue
+3) !trad lg:[votre langue en deux lettre exemple: en, fr, es, it,...] [votre message ] : traduit votre message dans la langue voulue
 
 - Twitter
 1) Taper '!tweet ' puis le tweet que vous désirez à la suite avec un espace entre.
