@@ -27,8 +27,9 @@ var translate = require('@google-cloud/translate')({
   key: API_KEY
 })
 var elem
+
 // Twitter //
-/*
+
 const Twitter = require('twitter')
 const clientTwitter = new Twitter({
   consumer_key: 'MrlErdRtTFsTISbCTVsrTfe4c',
@@ -36,16 +37,6 @@ const clientTwitter = new Twitter({
   access_token_key: '2584464448-eakfNNGHKwnt2NWDoH4NHlSJsbCfDb8cpsoIyXe',
   access_token_secret: 'v8Y6fWpxwdJn3xYiyjdO2LeZeEXjIAj2XYGc7HVStWbBe'
 })
-
-*/
-/*
-const params = {screen_name: 'nodejs'}
-clientTwitter.get('statuses/user_timeline', params, function (error, tweets, response) {
-  if (!error) {
-    console.log(tweets)
-  }
-})
-*/
 
 // Openweather //
 var restClient = require('node-rest-client-promise').Client()
@@ -101,7 +92,8 @@ client.on('message', msg => {
       })
     } else {
       msg.channel.sendMessage('Ton tweet contient plus de 140 caractères !')
-      
+    }
+  }
 // Bot Openweather //
   function meteo (idWeather) {
     if (idMeteo >= 200 && idMeteo < 300) {
@@ -218,7 +210,7 @@ client.on('message', msg => {
       youTube.search(rech, 3, function (error, result) {
         if (error) {
           console.log(error)
-          msg.channel.sendMessage('Une erreur est survenue lors de la recherche') 
+          msg.channel.sendMessage('Une erreur est survenue lors de la recherche')
         } else {
           console.log(JSON.stringify(result, null, 3))
           for (var k in result.items) {
@@ -259,7 +251,7 @@ client.on('message', msg => {
         }
         msg.channel.sendMessage('Nombre de résultat trouvé : ' + nbResultat)
         nbResultat = 0
-      }) 
+      })
     }
   }
   // Bot Google_traduction //
@@ -370,7 +362,7 @@ client.on('message', msg => {
         console.log('Something went wrong when retrieving an access token', err.message)
       })
   }
-  /*
+  // twitter
   const params = {screen_name: 'nodejs'}
   clientTwitter.get('statuses/user_timeline', params, function (error, tweets, response) {
     if (!error) {
@@ -384,7 +376,6 @@ client.on('message', msg => {
       })
     }
   })
-  */
 }
 )
 client.login(config.token)
