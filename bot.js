@@ -114,7 +114,6 @@ client.on('message', msg => {
   }
   if (msg.content.match('!weather*') !== null) {
     city = msg.content.substring(6, msg.content.length)
-    msg.channel.send(city + ' ')
     restClient.getPromise('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&lang=fr&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
     .catch((error) => {
       throw error
@@ -150,7 +149,7 @@ client.on('message', msg => {
     city = msg.content.substring(12, msg.content.length)
     hour = msg.content.substring(10, 11)
     if (hour.match(/[0-7]/) === null) {
-      msg.channel.send('Entre forecast et le nom de la ville il faut un numéro pour indiquer l\'horaire. En échange d\'un foie je peux t\'aider ... consommation personnelle exclusivement. Tape !help')
+      msg.channel.send('Entre forecast et le nom de la ville il faut un numéro pour indiquer l\'horaire. En échange d\'un foie je peux t\'aider ... consommation personnelle exclusivement. Tape !help forecast')
     } else {
       hour = parseFloat(hour)
       restClient.getPromise('http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=metric&lang=fr&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
