@@ -74,7 +74,7 @@ client.on('message', msg => {
   // If message is hello, post hello too
 // Message //
   if (msg.content === 'hello') {
-    msg.channel.send('Yeepeeee ! Enfin quelqu\'un qui s\'intéresse à moi ! ' + 'Je connais les commandes weather + ville || forecast + numéro + ville || help, qui t\'aidera à utiliser forecast --- N\'oublie pas le ! avant')
+    msg.channel.send('Yeepeeee ! Enfin quelqu\'un qui s\'intéresse à moi !')
   } else if (msg.content === 'how are you?') {
     msg.channel.send('It\'s all so complicated with the flowers and the romance, and the lies upon lies!')
   } else if (msg.content === 'where are you?') {
@@ -112,7 +112,7 @@ client.on('message', msg => {
       msg.channel.send('Les petits pois, pour que ça pousse, faut les arroser ! :cloud:')
     }
   }
-  if (msg.content.match('meteo*') !== null) {
+  if (msg.content.match('!weather*') !== null) {
     city = msg.content.substring(6, msg.content.length)
     msg.channel.send(city + ' ')
     restClient.getPromise('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&lang=fr&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
@@ -134,7 +134,7 @@ client.on('message', msg => {
       meteo(idMeteo)
       console.log(res.response.statusCode)
     })
-  } else if (msg.content.match('!help') !== null) {
+  } else if (msg.content.match('!help forecast') !== null) {
     msg.channel.send('Ne sois pas triste, tu as toujours ton docteur Zoidberg.')
     restClient.getPromise('http://api.openweathermap.org/data/2.5/forecast?q=Paris&units=metric&lang=fr&APPID=602b7069e6bd9de7d27ad28bfca04cc3')
     .catch((error) => {
